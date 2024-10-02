@@ -4,9 +4,11 @@
   <h1>Hola este primer proyecto</h1>
   <h2>{{ welcome }}</h2>
   <ul>
-    <li *ngFor="let task of tasks()">
-      {{ task }}
-    </li>
+    @for (task of tasks(); track task) {
+      <li>
+        {{ task }}
+      </li>
+    }
   </ul>
   <hr />
   <h2>{{ "Hola".repeat(4) }}</h2>
@@ -26,58 +28,114 @@
     type="number"
     [value]="person().age"
     (change)="changeHandler($event)"
-  />
-  <p>(KeyDown)</p>
-  <input
-    type="text"
-    [value]="person().name"
-    (keydown)="keydownHandler($event)"
-  />
-  <p>(KeyDown Enter)</p>
-  <input type="text" [value]="person().name" (keydown.enter)="clickHandler()" />
-  <hr />
-  <h1>Signals</h1>
-  <input type="text" [value]="name()" (change)="changeHandler($event)" />
-  <p>name: {{ name() }}</p>
-  <hr />
-  <h3>Array Elementos con Signal</h3>
-  <ul>
-    <p>Total elementos: {{ tasks().length }}</p>
-    <li *ngFor="let task of tasks(); index as i">{{ i }} {{ task }}</li>
-  </ul>
-  <hr />
-  <div *ngIf="name() === 'Yoto'">Soy Jonathan</div>
-  <input type="number" [value]="person().age" (change)="changeAge($event)" />
-  <div *ngIf="person().name === 'Yoto' && person().age > 18; else elseBlock">
-    Soy Jonathan y soy mayor de Edad
-  </div>
-  <ng-template #elseBlock> Soy Jonathan Junior y soy menor de 18</ng-template>
-  <hr />
-  <input type="text" [value]="person().name" (change)="changeName($event)" />
-  <div [ngSwitch]="person().name">
-    <p *ngSwitchCase="'hugo'">Yo soy Hugo</p>
-    <p *ngSwitchCase="'julian'">Yo soy Julian</p>
-    <p *ngSwitchCase="'ana'">Yo soy Ana</p>
-    <p *ngSwitchCase="'valentina'">Yo soy Valentina</p>
-    <p *ngSwitchDefault>Yo soy ninguna persona</p>
-  </div>
-  <hr />
-  <input type="color" [formControl] = "colorControl">
-  <p>color: {{ colorControl.value }}</p>
-  <svg>
-    <g>
-      <rect x="0" y="0" height="100" width="100" [attr.fill]="colorControl.value"></rect>
-    </g>
-  </svg>
-  <hr />
-  <input type="number" [formControl] = "widthControl">
-  <span class="box" [style.width.px]="widthControl.value"></span>
-  <hr />
-  <p>
-    <input type="text" [formControl] = "nameControl"> <br>
-    <span class="message-error" [class.show]="nameControl.invalid && nameControl.touched">Nombre incorrecto</span>
-  </p>
-  <p>
-    <input type="text">
-  </p>
-</div>
+    />
+    <p>(KeyDown)</p>
+    <input
+      type="text"
+      [value]="person().name"
+      (keydown)="keydownHandler($event)"
+      />
+      <p>(KeyDown Enter)</p>
+      <input type="text" [value]="person().name" (keydown.enter)="clickHandler()" />
+      <hr />
+      <h1>Signals</h1>
+      <input type="text" [value]="name()" (change)="changeHandler($event)" />
+      <p>name: {{ name() }}</p>
+      <hr />
+
+      <hr />
+      @if (name() === 'Yoto') {
+        <div>Soy Jonathan</div>
+      }
+
+      @if (name() === 'Yoto'){
+        <div>Soy Jonathan CC</div>
+      }
+      <input type="number" [value]="person().age" (change)="changeAge($event)" />
+      @if (person().name === 'Yoto' && person().age > 18) {
+        <div>
+          Soy Jonathan y soy mayor de Edad
+        </div>
+      } @else {
+        Soy Jonathan Junior y soy menor de 18
+      }
+      <h2>If else new Sintax</h2>
+      @if (person().name === 'Yoto' && person().age > 18){
+        <div>Soy Jonathan y soy mayor de Edad calidoso</div>
+      } @else {
+        Soy Jonathan Junior y soy menor de 18 :-)
+      }
+      <hr />
+      <input type="text" [value]="person().name" (change)="changeName($event)" />
+      <div>
+        @switch (person().name) {
+          @case ('hugo') {
+            <p>Yo soy Hugo</p>
+          }
+          @case ('julian') {
+            <p>Yo soy Julian</p>
+          }
+          @case ('ana') {
+            <p>Yo soy Ana</p>
+          }
+          @case ('valentina') {
+            <p>Yo soy Valentina</p>
+          }
+          @default {
+            <p>Yo soy ninguna persona</p>
+          }
+        }
+      </div>
+      <hr />
+      <input type="color" [formControl] = "colorControl">
+      <p>color: {{ colorControl.value }}</p>
+      <svg>
+        <g>
+          <rect x="0" y="0" height="100" width="100" [attr.fill]="colorControl.value"></rect>
+        </g>
+      </svg>
+      <hr />
+      <input type="number" [formControl] = "widthControl">
+      <span class="box" [style.width.px]="widthControl.value"></span>
+      <hr />
+      <p>
+        <input type="text" [formControl] = "nameControl"> <br>
+        <span class="message-error" [class.show]="nameControl.invalid && nameControl.touched">Nombre incorrecto</span>
+      </p>
+      <p>
+        <input type="text">
+      </p>
+      <hr>
+        <h3>Array Elementos con Signal</h3>
+        <ul>
+          <p>Total elementos: {{ tasks().length }}</p>
+          @for (task of tasks(); track task; let i = $index) {
+            <li>{{ i }} {{ task }}</li>
+          }
+        </ul>
+        <hr>
+          <h2>New for with New syntax</h2>
+          <ul>
+            @for(task of tasks(); track task; let i = $index) {
+              <li>{{ i }} {{ task }}</li>
+              } @empty {
+              <li><strong>La lista esta en vacio</strong></li>
+            }
+          </ul>
+          <hr>
+            <h2>New switch with New Syntax</h2>
+            @switch (person().name) {
+              @case('jota') {
+                <p>Yo Soy Jonathan</p>
+              }
+              @case('paco') {
+                <p>Yo Soy Paco</p>
+              }
+              @case('coco') {
+                <p>Yo Soy CocoLoco</p>
+              }
+              @default {
+                <p>I'm nobody</p>
+              }
+            }
+          </div>
